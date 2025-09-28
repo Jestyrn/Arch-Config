@@ -1,55 +1,217 @@
-// __        __          _                 
-// \ \      / /_ _ _   _| |__   __ _ _ __  
-//  \ \ /\ / / _` | | | | '_ \ / _` | '__| 
-//   \ V  V / (_| | |_| | |_) | (_| | |    
-//    \_/\_/ \__,_|\__, |_.__/ \__,_|_|    
-//                 |___/                   
-//  
-// by Stephan Raabe (2023) 
-// ----------------------------------------------------- 
-//
 {
-    // General Settings
-    "layer": "top",
-    "margin-top": 0,
-    "margin-bottom": 0,
-    "layer": "top",
-    "margin-left": 0,
-    "margin-right": 0,    
-    "spacing": 0,
+  // === Основные настройки панели ===
+  "layer": "top",
+  "position": "top",
+  "height": 35,
+  "margin-top": 2,
+  "margin-left": 8,
+  "margin-right": 8,
+  "reload_style_on_change": true,
 
-    // Load Modules
-    "include": ["~/.config/waybar/modules.json"],
+  // === БЛОКИ МОДУЛЕЙ ===
 
-    // Modules Left
-    "modules-left": [
-        "custom/appmenu",
-        "group/settings",
-        "wlr/taskbar",
-        "group/quicklinks",
-        "hyprland/window",
-        "custom/empty"
-    ],
+  // ┌───────────────┐
+  // │ ЛЕВАЯ ЧАСТЬ   │
+  // └───────────────┘
+  "modules-left": [
+    // Блок 1: Система
+    "custom/arch",
 
-    // Modules Center
-    "modules-center": [
-        "hyprland/workspaces"
-    ],
+    // Блок 2: Рабочие пространства
+    "hyprland/workspaces",
 
-    // Modules Right    
-    "modules-right": [
-        "custom/updates",
-        "pulseaudio",
-        "bluetooth",
-        "battery", 
-        "network",
-        "group/hardware",
-        "custom/cliphist",
-        "idle_inhibitor",
-        "tray",
-        "custom/exit",
-        "custom/ml4w-welcome",
-        "clock"
-    ]
+    // Блок 3: Системная статистика
+    "custom/ethernetSpeed",
+    "custom/temperature",
+    "cpu"
+  ],
+
+  // ┌───────────────┐
+  // │ ЦЕНТР         │
+  // └───────────────┘
+  "modules-center": [
+    // Блок 1: Редакторы / IDE
+    "custom/codium",
+    "custom/rider",
+
+    // Блок 2: Время
+    "clock",
+
+    // Блок 3: Безопасность
+    "custom/lock"
+  ],
+
+  // ┌───────────────┐
+  // │ ПРАВАЯ ЧАСТЬ  │
+  // └───────────────┘
+  "modules-right": [
+    // Блок 1: Запись экрана
+    "custom/obs",
+
+    // Блок 2: Мессенджеры
+    "custom/telegram",
+
+    // Блок 3: Системная статистика
+    "battery",
+    "pulseaudio",
+
+    // Блок 4: Питание / Выключение
+    "custom/power"
+  ],
+
+  // === НАСТРОЙКИ МОДУЛЕЙ ===
+
+  // ┌───────────────────────────────┐
+  // │ ВСТРОЕННЫЕ МОДУЛИ             │
+  // └───────────────────────────────┘
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10",
+      "urgent": "",
+      "default": ""
+    },
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "sort-by-number": true
+  },
+
+  "cpu": {
+    "format": " {usage}%",
+    "tooltip": true,
+    "tooltip-format": "CPU: {cores} cores\nLoad: {load}\nFreq: {frequency} GHz"
+  },
+
+  "clock": {
+    "format": " {:%H:%M}",
+    "format-alt": " {:%Y-%m-%d}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "on-click-right": "date '+%Y-%m-%d %H:%M:%S' | wl-copy"
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-bluetooth": "{icon}  {volume}%",
+    "format-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", "󰕾", ""]
+    },
+    "ignored-sinks": ["Easy Effects Sink"],
+    "scroll-step": 2.0,
+    "on-click": "pavucontrol -t 3",
+    "on-click-right": "blueman-manager",
+    "smooth-scrolling-threshold": 1
+  },
+
+  "battery": {
+    "interval": 60,
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}  {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-full": "{icon} Full",
+    "format-alt": "{icon} {time}",
+    "format-icons": ["", "", "", "", ""],
+    "format-time": "{H}h {M}min",
+    "tooltip": true,
+    "tooltip-format": "{timeTo} {power}w"
+  },
+
+  // ┌───────────────────────────────┐
+  // │ КАСТОМНЫЕ МОДУЛИ              │
+  // └───────────────────────────────┘
+
+  // --- ЛЕВАЯ ЧАСТЬ ---
+  "custom/arch": {
+    "exec": "echo ",
+    "interval": 5,
+    "return-type": "text",
+    "format": "{}",
+    "on-click": "kitty",
+    "tooltip": true
+  },
+
+  "custom/ethernetSpeed": {
+    "exec": "~/.config/waybar/scripts/ethernet_speed.py",
+    "interval": 10,
+    "return-type": "json"
+  },
+
+  "custom/temperature": {
+    "exec": "~/.config/waybar/scripts/weather.py",
+    "interval": 10,
+    "return-type": "json",
+    "tooltip": true
+  },
+
+  // --- ЦЕНТР ---
+  "custom/codium": {
+    "exec": "echo ''",
+    "format": "{}",
+    "on-click": "codium",
+    "tooltip": "Open VSCodium",
+    "interval": "once"
+  },
+
+  "custom/rider": {
+    "exec": "echo ''",
+    "format": "{}",
+    "on-click": "rider",
+    "tooltip": "Open Rider",
+    "interval": "once"
+  },
+
+  "custom/lock": {
+    "exec": "echo ''",
+    "format": "{}",
+    "on-click": "hyprlock",
+    "tooltip": "Lock screen (hyprlock)"
+  },
+
+  // --- ПРАВАЯ ЧАСТЬ ---
+  "custom/obs": {
+    "exec": "~/.config/waybar/scripts/recorder-status.sh",
+    "on-click": "~/.config/waybar/scripts/recorder-control.sh",
+    "interval": 1,
+    "format": "{}",
+    "return-type": "json",
+    "tooltip": true
+  },
+
+  "custom/telegram": {
+    "exec": "~/.config/waybar/scripts/telegram.sh",
+    "on-click": "sh -c 'if ! pgrep -x \"Telegram\" > /dev/null; then Telegram; else hyprctl dispatch focuswindow \"^Telegram$\"; fi'",
+    "interval": 5,
+    "format": "{}",
+    "return-type": "json",
+    "tooltip": true
+  },
+
+  "custom/power": {
+    "exec": "echo '⏻'",
+    "format": "{}",
+    "on-click": "wlogout",
+    "tooltip": "Power menu (wlogout)"
+  }
 }
-
