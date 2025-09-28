@@ -1,146 +1,166 @@
-@import "macchiato.css";
-
-* {
-  font-family: "JetBrains Mono", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 18px;
-}
-
+/* === Основа === */
 window#waybar {
-  background-color: @base;
-  border-radius: 13px;
-  transition-property: background-color;
-  transition-duration: 0.5s;
+    background: transparent;
+    color: #ffffff;
+    font-family: "JetBrainsMono Nerd Font", "Fira Code", monospace;
+    font-size: 20px;
+    transition: all 0.2s ease;
 }
 
-button {
-  /* Use box-shadow instead of border so the text isn't offset */
-  box-shadow: inset 0 -3px transparent;
-  /* Avoid rounded borders under each button name */
-  border: none;
-  border-radius: 0;
-}
-
-/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-button:hover {
-  background: inherit;
-  box-shadow: inset 0 -3px #ffffff;
-}
-
-/* you can set a style on hover for any module like this */
-#pulseaudio:hover {
-  background-color: @surface2;
-}
-
-#workspaces button {
-  padding: 0 5px;
-  background-color: transparent;
-  color: @rosewater;
-}
-
-#workspaces button:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-#workspaces button.focused {
-  background-color: @rosewater;
-  color: @base;
-  box-shadow: inset 0 -3px #ffffff;
-}
-
-#workspaces button.urgent {
-  background-color: #eb4d4b;
-}
-
-#mode {
-  background-color: #64727d;
-  box-shadow: inset 0 -3px #ffffff;
-}
-
-#clock,
-#battery,
+/* === Общие отступы для всех модулей === */
+#workspaces,
+#custom-arch,
+#custom-ethernetSpeed,
+#custom-temperature,
 #cpu,
-#memory,
-#temperature,
-#network,
-#pulseaudio {
-  padding: 0 10px;
+#custom-codium,
+#custom-rider,
+#clock,
+#custom-lock,
+#custom-obs,
+#custom-telegram,
+#battery,
+#pulseaudio,
+#custom-power {
+    background-color: #0c263d;
+    padding: 0 8 0 8;
+    border-radius: 8 8 8 8;
 }
 
-#pulseaudio {
-  color: @maroon;
+/* === РАЗДЕЛИТЕЛИ МЕЖДУ БЛОКАМИ === */
+#custom-arch {
+    background-color: transparent;
+    margin-right: 16px;
+    font-size: 28px;
+    color: #1793d1;
 }
 
-#network {
-  color: @yellow;
+#custom-codium {
+    border-radius: 8 0 0 8;
 }
-
-#temperature {
-  color: @sky;
-}
-
-#battery {
-  color: @green;
+#custom-rider {
+    margin-right: 16px; 
+    border-radius: 0 8 8 0;
 }
 
 #clock {
-  color: @flamingo;
+    margin-right: 16px;
 }
 
+#custom-obs {
+    margin-right: 8px;
+}
+
+#custom-telegram {
+    margin-right: 16px;
+}
+
+#pulseaudio {
+    margin-right: 16px;
+}
+
+/* === СТИЛИ МОДУЛЕЙ === */
+/* --- Workspaces --- */
+#workspaces button {
+    padding: 0 4px;
+    color: #1793d1;
+    border-radius: 8px;
+}
+#workspaces button.focused {
+    color: #50fa7b;
+    background: rgba(50, 50, 50, 0.4);
+}
+#workspaces button:hover {
+    background: rgba(70, 70, 70, 0.5);
+    color: #ffffff;
+}
+
+/* --- Системная статистика (слева) --- */
 #cpu {
-  color: @peach;
+    color: #4493F8;
+    border-radius: 0 8 8 0;
+}
+#custom-temperature {
+    color: #4493F8;
+    border-radius: 0;
+}
+#custom-ethernetSpeed {
+    color: #50fa7b;
+    border-radius: 8 0 0 8;
+    margin: 0 0 0 16;
 }
 
-#memory {
-  color: @green;
+/* --- Редакторы (центр) --- */
+#custom-codium,
+#custom-rider {
+    color: #4493F8;
+}
+#custom-codium:hover,
+#custom-rider:hover {
+    color: #ff79c6;
+    background: rgba(40, 40, 40, 0.4);
+    border-radius: 3px;
 }
 
-#window {
-  color: @text;
+/* --- Время --- */
+#clock {
+    color: #50fa7b;
+    font-weight: bold;
 }
 
-.modules-right,
-.modules-left,
-.modules-center {
-  background-color: @base;
-  border-radius: 15px;
+/* --- Безопасность (центр) --- */
+#custom-lock {
+    color: #4493F8;
+    background-color: transparent;
 }
-.modules-right {
-  padding: 0 10px;
-}
-
-.modules-left {
-  padding: 0 20px;
+#custom-lock:hover {
+    color: #ff79c6;
+    background: rgba(40, 40, 40, 0.4);
+    border-radius: 3px;
 }
 
-.modules-center {
-  padding: 0 10px;
+/* --- Запись (справа) --- */
+#custom-obs.recording {
+    color: #ff5555;
+    padding: 0 0 0 0;
 }
-#battery.charging,
-#battery.plugged {
-  color: @sapphire;
-}
-
-@keyframes blink {
-  to {
-    color: #000000;
-  }
+#custom-obs.inactive {
+    color: #4493F8;
 }
 
-/* Using steps() instead of linear as a timing function to limit cpu usage */
-#battery.critical:not(.charging) {
-  background-color: #f53c3c;
-  color: #ffffff;
-  animation-name: blink;
-  animation-duration: 0.5s;
-  animation-timing-function: steps(12);
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+/* --- Телеграм --- */
+#custom-telegram.running {
+    color: #d55d0e;
 }
 
-label:focus {
-  background-color: #000000;
+/* --- Статистика (справа) --- */
+#battery {
+    color: #50fa7b;
+}
+#battery.warning { color: #50fa7b; }
+#battery.critical {
+    color: #d55d0e;
+    animation: blink 1s infinite;
 }
 
+#pulseaudio {
+    color: #4493F8;
+}
 #pulseaudio.muted {
-  color: @text;
+    color: #ff5555;
+}
+
+/* --- Питание --- */
+#custom-power {
+    color: #4493F8;
+}
+#custom-power:hover {
+    color: #d55d0e;
+    background: rgba(40, 40, 40, 0.4);
+    border-radius: 3px;
+}
+
+/* === Анимации === */
+@keyframes blink {
+    50% { opacity: 0.4; }
 }
