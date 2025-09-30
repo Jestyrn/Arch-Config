@@ -10,7 +10,10 @@
 ## - wlogout
 Графическое меню выхода из системы
 ## - dunst
+Диспетчер уведомлений
 ## - swappy
-## - cliphist | wl-clipboard
+Редактор скриншотов
+## - cliphist + wl-clipboard
+Создание скриншотов
 ## - hyprpaper | swybg | mpvpaper
 ## - hyprpicker
