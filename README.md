@@ -16,4 +16,6 @@
 ## - cliphist + wl-clipboard
 Создание скриншотов
 ## - hyprpaper | swybg | mpvpaper
+Менеджер обоев
 ## - hyprpicker
+Утилита для поиска цвета
